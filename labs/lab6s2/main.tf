@@ -1,3 +1,53 @@
+resource "aws_iam_role" "role_N01551957" {
+  name = "role_for_Joseph1957"
+  assume_role_policy  = data.aws_iam_policy_document.policy_document_N01551957.json
+  managed_policy_arns = []
+}
+
+resource "aws_iam_policy" "policy_N01551957" {
+  name        = "policy_for_joseph1957"
+  path        = "/"
+  description = "My test policy"
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Action = [
+          "ec2:Describe*",
+        ]
+        Effect   = "Allow"
+        Resource = "*"
+      },
+    ]
+  })
+}
+
+data "aws_iam_policy_document" "policy_document_N01551957" {
+  statement {
+    sid = "1"
+    principals {
+      type        = "Service"
+      identifiers = ["ec2.amazonaws.com"]
+    }
+    actions = [
+      "sts:AssumeRole"
+    ]
+  }
+}
+
+resource "aws_iam_group" "group_N01551957" {
+  name = "Humber_group"
+}
+
+resource "aws_iam_group_policy_attachment" "group_policy_attachment_N01551957" {
+  group      = aws_iam_group.group_N01551957.name
+  policy_arn = aws_iam_policy.policy_N01551957.arn
+}
+resource "aws_iam_role_policy_attachment" "role_policy_attachment_N01551957" {
+  role       = aws_iam_role.role_N01551957.name
+  policy_arn = aws_iam_policy.policy_N01551957.arn
+}
 data "aws_ami" "ubuntu" {
   most_recent = true
 
@@ -20,46 +70,5 @@ resource "aws_instance" "web" {
 
   tags = {
     Name = "HelloWorld"
-  }
-}
-
-resource "aws_iam_policy" "policy" {
-  name        = "test_policy"
-  path        = "/"
-  description = "My test policy"
-
-  policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Action = [
-          "ec2:Describe*",
-        ]
-        Effect   = "Allow"
-        Resource = "*"
-      },
-    ]
-  })
-}
-
-resource "aws_iam_role" "test_role" {
-  name = "test_role"
-
-  assume_role_policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Action = "sts:AssumeRole"
-        Effect = "Allow"
-        Sid    = ""
-        Principal = {
-          Service = "ec2.amazonaws.com"
-        }
-      },
-    ]
-  })
-
-  tags = {
-    tag-key = "tag-value"
   }
 }
