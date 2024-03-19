@@ -11,10 +11,10 @@ data "aws_ami" "ubuntu" {
   owners = ["099720109477"] # Canonical
 }
 
-data "vault_generic_secret" "aws_access_key_id"{
-  path = "secret/aws_access_key_id"
+data "vault_generic_secret" "aws_access_key_id" {
+  path = "secret/terraform-vault-aws-key-id"
 }
 
-data "vault_generic_secret" "aws_secret_access_key"{
-  path = "secret/aws_secret_access_key"
+data "vault_generic_secret" "aws_secret_access_key" {
+  path = "secret/terraform-vault-aws-secret"
 }
